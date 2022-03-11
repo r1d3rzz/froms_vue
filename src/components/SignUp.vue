@@ -17,21 +17,16 @@
       <label class="checkboxLabel" for="">Accept Terms and Conditions</label>
     </div>
 
-    <!-- Example checkBox skill -->
     <div>
-      <label for=""> Skills</label>
-
-      <input type="checkbox" value="html" v-model="skills" />
-      <label class="checkboxLabel" for="">HTML</label>
-      <br />
-      <input type="checkbox" value="css" v-model="skills" />
-      <label class="checkboxLabel" for="">CSS</label>
-      <br />
-      <input type="checkbox" value="js" v-model="skills" />
-      <label class="checkboxLabel" for="">JavaScript</label>
-      <br />
-      <input type="checkbox" value="php" v-model="skills" />
-      <label class="checkboxLabel" for="">PHP</label>
+      <label for="">Skills</label>
+      <input type="text" v-model="skill" @keyup.alt="addSkills" />
+      <p class="guide">add skill Press together with Alt + ,</p>
+      <div v-for="skill in skills" :key="skill">
+        <p>
+          {{ skill }}
+          <span class="deleteBtn" @click="deleteSkill(skill)">&#x2717;</span>
+        </p>
+      </div>
     </div>
   </form>
 
@@ -39,7 +34,6 @@
   <p>Password - {{ password }}</p>
   <p>Role - {{ role }}</p>
   <p>Accept - {{ accept }}</p>
-  <p>Skills - {{ skills }}</p>
 </template>
 
 <script>
@@ -50,8 +44,24 @@ export default {
       password: "",
       role: "developer",
       accept: false,
+      skill: "",
       skills: [],
     };
+  },
+
+  methods: {
+    addSkills(e) {
+      if (e.key === ",") {
+        this.skills.push(this.skill);
+        this.skill = "";
+      }
+    },
+
+    deleteSkill(skill) {
+      this.skills = this.skills.filter((loopSkills) => {
+        return loopSkills !== skill;
+      });
+    },
   },
 };
 </script>
@@ -96,5 +106,14 @@ input[type="checkbox"] {
 }
 .checkboxLabel {
   display: inline-block;
+}
+.deleteBtn {
+  cursor: pointer;
+  color: red;
+}
+.guide {
+  color: #aaa;
+  position: relative;
+  top: 1px;
 }
 </style>
