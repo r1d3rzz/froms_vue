@@ -1,10 +1,11 @@
 <template>
-  <form>
+  <form @submit.prevent="createAcc">
     <label for="">Email</label>
     <input type="email" required v-model="email" />
 
     <label for="">Password</label>
     <input type="password" required v-model="password" />
+    <p v-if="errorMsg">{{ errorMsg }}</p>
 
     <label for="">Roles</label>
     <select v-model="role">
@@ -28,6 +29,10 @@
         </p>
       </div>
     </div>
+
+    <div class="createBtn">
+      <button>Create</button>
+    </div>
   </form>
 
   <p>Email - {{ email }}</p>
@@ -46,6 +51,7 @@ export default {
       accept: false,
       skill: "",
       skills: [],
+      errorMsg: "",
     };
   },
 
@@ -61,6 +67,13 @@ export default {
       this.skills = this.skills.filter((loopSkills) => {
         return loopSkills !== skill;
       });
+    },
+
+    createAcc() {
+      if (this.password.length < 8) {
+        this.errorMsg = "Password must be a least 8 characters";
+      }
+      console.log("hit");
     },
   },
 };
@@ -115,5 +128,18 @@ input[type="checkbox"] {
   color: #aaa;
   position: relative;
   top: 1px;
+}
+button {
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border: none;
+  width: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+.createBtn {
+  text-align: center;
 }
 </style>
